@@ -1,0 +1,89 @@
+<!DOCTYPE html>
+<html>
+<head>
+ <!-- the next line pulls in JQuery, provided we are connected to the 
+      internet -->
+
+ <script src="https://ajax.googleapis.com/ajax/libs/jquery/2.2.2/jquery.min.js">
+ </script>
+
+ <style>
+   #kbHere { border: 1px solid green; 
+             width: 800px; height: 400px; background-color: pink; }
+   .whiteKey { border: 3px solid black; background-color: white; position: absolute;}
+   .blackKey { border: 3px solid black; background-color: black; position: absolute;}
+
+ </style>
+ 
+ <script src="jskb.js"></script>
+
+ <script>
+  $(document).ready(function(){
+
+  var numWhiteKeys = 15;
+  var whiteKeyWidth = 50;
+  var keyDims = keyDimensions(whiteKeyWidth);
+  var firstNote = "c";
+  var startOctave = 4;
+ 
+  $("#theButton").click( function(){
+    $("#kbHere").width(keyDims.whiteKeyWidth * numWhiteKeys);
+    $("#kbHere").height(keyDims.whiteKeyHeight);
+
+    var leftOffset = 0;
+    var thisNote = firstNote;
+    var thisOctave = startOctave;
+
+    for (var i=0; i < numWhiteKeys; i++) {
+      var newWhiteKey = $("<div />").addClass("whiteKey").css("left",leftOffset).addClass("key");
+      var noteName = thisNote + thisOctave;
+      newWhiteKey.data("noteName",noteName);
+      $("#kbHere").append(newWhiteKey);
+      if ( kbProperties[thisNote].followedByBlackKey && i != numWhiteKeys - 1  ) {
+         var blackKeyOffset = leftOffset + keyDims.whiteKeyWidth - (keyDims.blackKeyWidth / 2.0);  
+         var noteName = thisNote + "#" + thisOctave;
+         var newBlackKey = $("<div />").addClass("blackKey").css("left",blackKeyOffset).addClass("key");
+         newBlackKey.data("noteName",noteName);
+         $("#kbHere").append(newBlackKey);		      
+      }
+      leftOffset += keyDims.whiteKeyWidth;
+      thisNote = kbProperties[thisNote].next;
+      if (thisNote == "c")
+        thisOctave++;
+    }
+
+    $(".whiteKey").width(keyDims.whiteKeyWidth);
+    $(".whiteKey").height(keyDims.whiteKeyHeight);
+    $(".whiteKey").css("zIndex",0); 
+    $(".blackKey").width(keyDims.blackKeyWidth);
+    $(".blackKey").height(keyDims.blackKeyHeight);
+    $(".blackKey").css("zIndex",1);
+
+    $(".key").click(function() {
+       $("#whatKeyPressed").html($(this).data("noteName"));
+    });
+		      
+  }); // this ends the call to the .click function
+
+ }); // this ends the call to the .ready function
+
+ </script>
+
+ <title>jskb demo</title>
+</head>
+
+<body>
+
+<h1>Keyboard</h1>
+
+<div id="kbHere" />
+
+<div id="whatKeyPressed"></div>
+
+</div>
+
+
+<button id="theButton">Click me</button>
+</body>
+
+</html>
