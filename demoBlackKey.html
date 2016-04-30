@@ -1,0 +1,76 @@
+<!DOCTYPE html>
+<html>
+<head>
+ <!-- the next line pulls in JQuery, provided we are connected to the 
+      internet -->
+
+ <script src="https://ajax.googleapis.com/ajax/libs/jquery/2.2.2/jquery.min.js">
+ </script>
+
+ <style>
+   #kbHere { border: 1px solid green; 
+             width: 800px; height: 400px; background-color: pink; }
+   .whiteKey { border: 3px solid black; background-color: white; position: absolute;}
+   .blackKey { border: 3px solid black; background-color: black; position: absolute;}
+
+ </style>
+ 
+ <script src="jskb.js"></script>
+
+ <script>
+  $(document).ready(function(){
+
+  var numWhiteKeys = 7;
+  var whiteKeyWidth = 100;
+  var keyDims = keyDimensions(100);
+ 
+  $("#theButton").click( function(){
+    $("#kbHere").width(keyDims.whiteKeyWidth * numWhiteKeys);
+    $("#kbHere").height(keyDims.whiteKeyHeight);
+
+    var leftOffset = 0;
+    for (var i=0; i < numWhiteKeys; i++) {
+      var newWhiteKey = $("<div />").addClass("whiteKey").css("left",leftOffset);
+      
+      $("#kbHere").append(newWhiteKey);
+      leftOffset += keyDims.whiteKeyWidth;
+    }
+
+    $(".whiteKey").width(keyDims.whiteKeyWidth);
+    $(".whiteKey").height(keyDims.whiteKeyHeight);
+
+
+    var leftOffset =  keyDims.whiteKeyWidth - (keyDims.blackKeyWidth / 2.0);  
+    for (var i=0; i < numWhiteKeys - 1; i++) {
+      var newBlackKey = $("<div />").addClass("blackKey").css("left",leftOffset);
+      
+      $("#kbHere").append(newBlackKey);
+      leftOffset += keyDims.whiteKeyWidth; /* move over by white key width, not black key width */
+    }
+ 
+    $(".blackKey").width(keyDims.blackKeyWidth);
+    $(".blackKey").height(keyDims.blackKeyHeight);
+
+
+  }); // this ends the call to the .click function
+
+ }); // this ends the call to the .ready function
+
+ </script>
+
+ <title>jskb demo</title>
+</head>
+
+<body>
+
+<h1>Keyboard</h1>
+<div id="kbHere">
+
+
+</div>
+
+
+<button id="theButton">Click me</button>
+</body>
+
+</html>

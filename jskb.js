@@ -1,5 +1,4 @@
 
-
 function keyDimensions(whiteKeyWidth) {
 	return {
  		"whiteKeyWidth" : whiteKeyWidth,
@@ -9,4 +8,12 @@ function keyDimensions(whiteKeyWidth) {
 	};
 }
 
-
+var kbProperties = {
+	"c" : { "followedByBlackKey" : true, "next" : "d" },
+	"d" : { "followedByBlackKey" : true, "next" : "e"  },
+	"e" : { "followedByBlackKey" : false, "next" : "f"  },
+	"f" : { "followedByBlackKey" : true, "next" : "g"  },
+	"g" : { "followedByBlackKey" : true, "next" : "a"  },
+	"a" : { "followedByBlackKey" : true, "next" : "b"  },
+	"b" : { "followedByBlackKey" : false, "next" : "c"  },
+};
